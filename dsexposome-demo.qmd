@@ -93,7 +93,7 @@ conns <- DSI::datashield.login(logins = logindata, assign = F)
 
 ### Assigning the resource
 
-Now that we have successfully connected to the server, we just have to specify which data to load in order to analize it.
+Now that we have successfully connected to the server, we just have to specify which data to load in order to analyze it.
 
 ```{r}
 datashield.assign.resource(
