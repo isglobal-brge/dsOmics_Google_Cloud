@@ -167,17 +167,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>DataSHIELD is a technical solution for analyzing sensitive or confidential data in a federated manner, where data remains in the control of the original data holders and is not centralized or shared. One of the main problems with using DataSHIELD in large projects is the limited computing capacities of the individual data holders. Since the data is not centralized, the analysis must be performed on each site separately and then non-disclosive results are combined. This can lead to longer analysis times and increased computational burden on the individual sites, which may not have the same level of computing resources. Additionally, the data holders may have different technical capabilities, which can make it difficult to standardize the analysis across sites and ensure that the results are comparable. Furthermore, the security and privacy concerns around sensitive data can make it difficult to share data across sites, which can limit the ability to perform advanced or complex analysis.</p>
 <p>In this report we provide a possible solution using Google Cloud which is a suite of cloud computing services offered by Google that provides a variety of tools and resources for businesses and organizations. The services include infrastructure as a service (IaaS), platform as a service (PaaS), and software as a service (SaaS) offerings. The IaaS component of Google Cloud, called Google Compute Engine, allows users to rent virtual machines on which to run their own applications.</p>
 <p>Google Cloud also provides a variety of security and compliance features to help protect user’s data and applications which is one of the main concerns of researchers for using this solution. Importantly, Google Cloud is compliant with the General Data Protection Regulation (GDPR) and takes a number of steps and features to ensure the security of user data.These include:</p>
-<pre><code> - Data processing agreements (DPAs) that outline how Google Cloud processes customer data in compliance with GDPR
- - Data protection impact assessments (DPIAs) that help customers identify and mitigate data protection risks
- - Tools for managing user consent and data subject rights, such as the ability to delete or export personal data
- - Transparency reports that provide information on data requests from government and other third parties.</code></pre>
+<ul>
+<li>Data processing agreements (DPAs) that outline how Google Cloud processes customer data in compliance with GDPR</li>
+<li>Data protection impact assessments (DPIAs) that help customers identify and mitigate data protection risks</li>
+<li>Tools for managing user consent and data subject rights, such as the ability to delete or export personal data</li>
+<li>Transparency reports that provide information on data requests from government and other third parties.</li>
+</ul>
 <p>In terms of security, Google Cloud has a number of measures in place to protect user data. These include:</p>
-<pre><code> - Encryption of data in transit and at rest
- - Regular security assessments and penetration testing to identify and address vulnerabilities
- - Access controls and authentication to ensure that only authorized users can access data
- - Network security to protect against external threats
- - A dedicated security team that monitors for and responds to potential security incidents.
- - Google Cloud is also SOC2, ISO 27001, and PCI DSS certified, which are internationally recognized standards for information security management. Furthermore, it also provides a variety of tools and services to help customers manage their own security, such as security key management service, Cloud Security Command Center, and Cloud Identity-Aware Proxy.</code></pre>
+<ul>
+<li>Encryption of data in transit and at rest</li>
+<li>Regular security assessments and penetration testing to identify and address vulnerabilities</li>
+<li>Access controls and authentication to ensure that only authorized users can access data</li>
+<li>Network security to protect against external threats</li>
+<li>A dedicated security team that monitors for and responds to potential security incidents.</li>
+<li>Google Cloud is also SOC2, ISO 27001, and PCI DSS certified, which are internationally recognized standards for information security management. Furthermore, it also provides a variety of tools and services to help customers manage their own security, such as security key management service, Cloud Security Command Center, and Cloud Identity-Aware Proxy.</li>
+</ul>
 <p>More details about Google Cloud Compliance (also specific for countries) can be found <a href="https://cloud.google.com/security/compliance">here</a>.</p>
 <p>All the above mentioned features make possible to evaluate the possibility of using Google Cloud within <a href="https://athleteproject.eu/">ATHLETE project</a> for some cohorts to overcome their existing computing problems. In order to illustrate how we can set up ATHLETE’s infrastructure, next we describe an infrastructure we set up using data from <a href="http://www.projecthelix.eu/es">HELIX project</a> in which each cohort was consider as a different cohort.</p>
 </section>
@@ -202,47 +206,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The first step is to login to the server. You can see that we are connecting to a fixed IP (<code>35.219.173.160</code>). It is good to remark that it is <strong>fixed</strong>, so that if we try to login after two months the address will still work, typically we are assigned dynamic IPs that change over time. Google Cloud is able to provide fixed IPs with just the click of a button, making it easier for the IT departments to provide a DNS (i.e.&nbsp;to be able to use <code>opal.isglobal.org</code> instead of an IP).</p>
 <p>We have created a test user with DataSHIELD access to the server.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-1_68f6308a660549c5a275ce664728512d">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSI'</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSOpal'</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'dsBaseClient'</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'dsExposomeClient'</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>user <span class="ot">&lt;-</span> <span class="st">"test"</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pass <span class="ot">&lt;-</span> <span class="st">"Testtest1!"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr);<span class="fu">set_config</span>(<span class="fu">config</span>(<span class="at">ssl_verifypeer =</span> 0L))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>builder <span class="ot">&lt;-</span> DSI<span class="sc">::</span><span class="fu">newDSLoginBuilder</span>()</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>builder<span class="sc">$</span><span class="fu">append</span>(<span class="at">server =</span> <span class="st">'server1'</span>, </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">url =</span> <span class="st">"https://35.219.173.160/repo"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">user =</span> user, </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">password =</span> pass, </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">profile =</span> <span class="st">"default"</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>logindata <span class="ot">&lt;-</span> builder<span class="sc">$</span><span class="fu">build</span>()</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>conns <span class="ot">&lt;-</span> DSI<span class="sc">::</span><span class="fu">datashield.login</span>(<span class="at">logins =</span> logindata, <span class="at">assign =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSI'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSOpal'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'dsBaseClient'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'dsExposomeClient'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>user <span class="ot">&lt;-</span> <span class="st">"test"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pass <span class="ot">&lt;-</span> <span class="st">"Testtest1!"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr);<span class="fu">set_config</span>(<span class="fu">config</span>(<span class="at">ssl_verifypeer =</span> 0L))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>builder <span class="ot">&lt;-</span> DSI<span class="sc">::</span><span class="fu">newDSLoginBuilder</span>()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>builder<span class="sc">$</span><span class="fu">append</span>(<span class="at">server =</span> <span class="st">'server1'</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">url =</span> <span class="st">"https://35.219.173.160/repo"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">user =</span> user, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">password =</span> pass, </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">profile =</span> <span class="st">"default"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>logindata <span class="ot">&lt;-</span> builder<span class="sc">$</span><span class="fu">build</span>()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>conns <span class="ot">&lt;-</span> DSI<span class="sc">::</span><span class="fu">datashield.login</span>(<span class="at">logins =</span> logindata, <span class="at">assign =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="assigning-the-resource" class="level3">
 <h3 class="anchored" data-anchor-id="assigning-the-resource">Assigning the resource</h3>
 <p>Now that we have successfully connected to the server, we just have to specify which data to load in order to analyze it.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-2_23205d2bb5b0bde6a170fca3975519a8">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.assign.resource</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  conns, </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">symbol =</span> <span class="st">'exposome_resource'</span>, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">resource =</span> <span class="fu">list</span>(<span class="at">server1 =</span> <span class="st">'EXPOSOME.exposomeSet'</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.class</span>(<span class="st">"exposome_resource"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.assign.resource</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  conns, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">symbol =</span> <span class="st">'exposome_resource'</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">resource =</span> <span class="fu">list</span>(<span class="at">server1 =</span> <span class="st">'EXPOSOME.exposomeSet'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.class</span>(<span class="st">"exposome_resource"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1
 [1] "RDataFileResourceClient" "FileResourceClient"     
 [3] "ResourceClient"          "R6"                     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.assign.expr</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  conns, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">symbol =</span> <span class="st">"exposome_resource"</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">expr =</span> <span class="fu">quote</span>(<span class="fu">as.resource.object</span>(exposome_resource))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.class</span>(<span class="st">"exposome_resource"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.assign.expr</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  conns, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">symbol =</span> <span class="st">"exposome_resource"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">expr =</span> <span class="fu">quote</span>(<span class="fu">as.resource.object</span>(exposome_resource))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.class</span>(<span class="st">"exposome_resource"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1
 [1] "ExposomeSet"
@@ -255,7 +259,7 @@ attr(,"package")
 <h3 class="anchored" data-anchor-id="working-with-the-data">Working with the data</h3>
 <p>Finally, we are ready to start analyzing. Here we can see the summary of one variable of the Exposome.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-3_242432b0c12753ee903fe628678bca82">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.exposome_summary</span>(<span class="st">"exposome_resource"</span>, <span class="st">"AbsPM25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.exposome_summary</span>(<span class="st">"exposome_resource"</span>, <span class="st">"AbsPM25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1
 $server1$class
@@ -271,8 +275,8 @@ $server1$`quantiles &amp; mean`
 </div>
 <p>Now, we will see the amount of missings on the phenotype data.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-4_6bc7656a1847e2d10a0c38cf467daa1a">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>phenos <span class="ot">&lt;-</span> <span class="fu">ds.tableMissings</span>(<span class="st">"exposome_resource"</span>, <span class="at">set =</span> <span class="st">"phenotypes"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotMissings</span>(phenos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>phenos <span class="ot">&lt;-</span> <span class="fu">ds.tableMissings</span>(<span class="st">"exposome_resource"</span>, <span class="at">set =</span> <span class="st">"phenotypes"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotMissings</span>(phenos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$pooled</code></pre>
 </div>
@@ -282,15 +286,15 @@ $server1$`quantiles &amp; mean`
 </div>
 <p>And finally we will perform a simple ExWAS analysis.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-5_001366709be8c1f9c814c7fa842787e9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>exwas_results <span class="ot">&lt;-</span> <span class="fu">ds.exwas</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"blood_pre ~ sex"</span>, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Set =</span> <span class="st">"exposome_resource"</span>, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"gaussian"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"meta"</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>exwas_results <span class="ot">&lt;-</span> <span class="fu">ds.exwas</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"blood_pre ~ sex"</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Set =</span> <span class="st">"exposome_resource"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"gaussian"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"meta"</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-6_362d7cce7698234022d8b1d6e3a5ff11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotExwas</span>(exwas_results, <span class="at">type=</span><span class="st">"manhattan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotExwas</span>(exwas_results, <span class="at">type=</span><span class="st">"manhattan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1</code></pre>
 </div>
@@ -300,7 +304,7 @@ $server1$`quantiles &amp; mean`
 </div>
 <p>When we are finished doing analysis, it is a good practice to logout of the server, that way the computational resources will be released for other researchers to use.</p>
 <div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-7_8c8159f8ca7db652e5e102e1ef98f62a">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.logout</span>(conns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.logout</span>(conns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
