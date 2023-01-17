@@ -15,6 +15,32 @@ execute:
   cache: true
 ---
 
+## Computing issues when using DataSHIELD in large consortia
+
+DataSHIELD is a technical solution for analyzing sensitive or confidential data in a federated manner, where data remains in the control of the original data holders and is not centralized or shared. One of the main problems with using DataSHIELD in large projects is the limited computing capacities of the individual data holders. Since the data is not centralized, the analysis must be performed on each site separately and then non-disclosive results are combined. This can lead to longer analysis times and increased computational burden on the individual sites, which may not have the same level of computing resources. Additionally, the data holders may have different technical capabilities, which can make it difficult to standardize the analysis across sites and ensure that the results are comparable. Furthermore, the security and privacy concerns around sensitive data can make it difficult to share data across sites, which can limit the ability to perform advanced or complex analysis.
+
+In this report we provide a possible solution using Google Cloud which is a suite of cloud computing services offered by Google that provides a variety of tools and resources for businesses and organizations. The services include infrastructure as a service (IaaS), platform as a service (PaaS), and software as a service (SaaS) offerings. The IaaS component of Google Cloud, called Google Compute Engine, allows users to rent virtual machines on which to run their own applications. 
+
+Google Cloud also provides a variety of security and compliance features to help protect user's data and applications which is one of the main concerns of researchers for using this solution. Importantly, Google Cloud is compliant with the General Data Protection Regulation (GDPR) and takes a number of steps and features to ensure the security of user data.These include:
+
+     - Data processing agreements (DPAs) that outline how Google Cloud processes customer data in compliance with GDPR
+     - Data protection impact assessments (DPIAs) that help customers identify and mitigate data protection risks
+     - Tools for managing user consent and data subject rights, such as the ability to delete or export personal data
+     - Transparency reports that provide information on data requests from government and other third parties.
+
+In terms of security, Google Cloud has a number of measures in place to protect user data. These include:
+
+     - Encryption of data in transit and at rest
+     - Regular security assessments and penetration testing to identify and address vulnerabilities
+     - Access controls and authentication to ensure that only authorized users can access data
+     - Network security to protect against external threats
+     - A dedicated security team that monitors for and responds to potential security incidents.
+     - Google Cloud is also SOC2, ISO 27001, and PCI DSS certified, which are internationally recognized standards for information security management. Furthermore, it also provides a variety of tools and services to help customers manage their own security, such as security key management service, Cloud Security Command Center, and Cloud Identity-Aware Proxy.
+
+More details about Google Cloud Compliance (also specific for countries) can be found [here](https://cloud.google.com/security/compliance).
+
+All the above mentioned features make possible to evaluate the possibility of using Google Cloud within [ATHLETE project](https://athleteproject.eu/) for some cohorts to overcome their existing computing problems. In order to illustrate how we can set up ATHLETE's infrastructure, next we describe an infrastructure we set up using data from [HELIX project](http://www.projecthelix.eu/es) in which each cohort was consider as a different cohort. 
+
 ## Meet Google Cloud
 
 [Google Cloud](cloud.google.com) is a cloud-based computing platform that offers a wide variety of services. For this demonstration, we have spined-up a simple `Compute Engine` with `debian-11-bullseye-v20221206` and `docker 20.10.22`.
