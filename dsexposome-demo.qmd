@@ -1,0 +1,123 @@
+---
+title: "Non-disclosive Exposome analysis using Google Cloud and dsExposome"
+author:
+  - name: Xavier Escribà Montagut
+    affiliations:
+      - name: ISGlobal
+  - name: Juan R. Gonzàlez
+    affiliations:
+      - name: ISGlobal
+format:
+  html:
+    toc: true
+    output-file: "index"
+execute: 
+  cache: true
+---
+
+## Meet Google Cloud
+
+[Google Cloud](cloud.google.com) is a cloud-based computing platform that offers a wide variety of services. For this demonstration, we have spined-up a simple `Compute Engine` with `debian-11-bullseye-v20221206` and `docker 20.10.22`.
+
+This is basically a server instance similar to what could be found in a typical research institution, but instead of being on-premises, it is hosted on the cloud by Google.
+
+Hardware wise, we have used a 4 core 16GB RAM instance with 50GB of SSD storage. At the time of writing, such specs are billed at \~120 USD per month.
+
+## Infrastructure
+
+With Google Cloud technology, we deployed a working prototype of Opal+ DataSHIELD. We have created a simple infrastructure with synthetic Exposome data from the HELIX project. This is to portray how a cohort interested on using DataSHIELD for their analysis could deploy the service without the need of buying additional on-premises computational resources.
+
+The Opal deployment on the Google Cloud server has been performed using the Coral stack (version 5.3.0), which is composed by a series of interconnected Docker containers with all the required services to host the dataset and analyze them using DataSHIELD.
+
+In order to visualize all the infrastructure and how it is interconnected, please take a look at the following figure. On the figure there are described two very distinct parts **1)** The computer of the researcher, which is running the client side R packages that perform the connection to Opal and send to it the analysis commands, and **2)** the Google Cloud instance, where we have all the analysis services and dataset encrypted by Google, the raw data will never leave that safe enclosure.
+
+![](Figures/infrastructure.png)
+
+## Exposome analysis
+
+In order to demonstrate the proposed solution, we will perform basic data exploration and ExWAS to the synthetic Exposome data placed on the Google Cloud instance. If the reader has further interest, please feel free to read about [Exposome analysis capabilities](https://isglobal-brge.github.io/dsExposomeClient/articles/dsExposome.html) and [details on how DataSHIELD works](https://data2knowledge.atlassian.net/wiki/spaces/DSDEV/pages/931069953/Beginners+Tutorial+DataSHIELD+v6.1).
+
+### Connecting to the Opal server
+
+The first step is to login to the server. You can see that we are connecting to a fixed IP (`35.219.173.160`). It is good to remark that it is **fixed**, so that if we try to login after two months the address will still work, typically we are assigned dynamic IPs that change over time. Google Cloud is able to provide fixed IPs with just the click of a button, making it easier for the IT departments to provide a DNS (i.e. to be able to use `opal.isglobal.org` instead of an IP).
+
+We have created a test user with DataSHIELD access to the server.
+
+```{r}
+#| output: false
+require('DSI')
+require('DSOpal')
+require('dsBaseClient')
+require('dsExposomeClient')
+
+user <- "test"
+pass <- "Testtest1!"
+
+library(httr);set_config(config(ssl_verifypeer = 0L))
+
+builder <- DSI::newDSLoginBuilder()
+builder$append(server = 'server1', 
+               url = "https://35.219.173.160/repo",
+               user = user, 
+               password = pass, 
+               profile = "default")
+logindata <- builder$build()
+conns <- DSI::datashield.login(logins = logindata, assign = F)
+```
+
+### Assigning the resource
+
+Now that we have successfully connected to the server, we just have to specify which data to load in order to analize it.
+
+```{r}
+datashield.assign.resource(
+  conns, 
+  symbol = 'exposome_resource', 
+  resource = list(server1 = 'EXPOSOME.exposomeSet')
+)
+ds.class("exposome_resource")
+
+datashield.assign.expr(
+  conns, 
+  symbol = "exposome_resource", 
+  expr = quote(as.resource.object(exposome_resource))
+)
+ds.class("exposome_resource")
+```
+
+### Working with the data
+
+Finally, we are ready to start analyzing. Here we can see the summary of one variable of the Exposome.
+
+```{r}
+ds.exposome_summary("exposome_resource", "AbsPM25")
+```
+
+Now, we will see the amount of missings on the phenotype data.
+
+```{r}
+phenos <- ds.tableMissings("exposome_resource", set = "phenotypes")
+ds.plotMissings(phenos)
+```
+
+And finally we will perform a simple ExWAS analysis.
+
+```{r}
+#| output: false
+exwas_results <- ds.exwas(
+  "blood_pre ~ sex", 
+  Set = "exposome_resource", 
+  family = "gaussian",
+  type = "meta"
+)
+```
+
+```{r}
+ds.plotExwas(exwas_results, type="manhattan")
+```
+
+When we are finished doing analysis, it is a good practice to logout of the server, that way the computational resources will be released for other researchers to use.
+
+```{r}
+datashield.logout(conns)
+```
