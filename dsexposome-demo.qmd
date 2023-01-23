@@ -10,9 +10,6 @@ author:
 format:
   html:
     toc: true
-    output-file: "index"
-execute: 
-  cache: true
 ---
 
 ## Computing issues when using DataSHIELD in large consortia
@@ -131,8 +128,8 @@ And finally we will perform a simple ExWAS analysis.
 ```{r}
 #| output: false
 exwas_results <- ds.exwas(
-  "blood_pre ~ sex", 
-  Set = "exposome_resource", 
+  "blood_pre ~ sex",
+  Set = "exposome_resource",
   family = "gaussian",
   type = "meta"
 )

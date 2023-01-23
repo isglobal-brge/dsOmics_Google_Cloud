@@ -205,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="connecting-to-the-opal-server">Connecting to the Opal server</h3>
 <p>The first step is to login to the server. You can see that we are connecting to a fixed IP (<code>35.219.173.160</code>). It is good to remark that it is <strong>fixed</strong>, so that if we try to login after two months the address will still work, typically we are assigned dynamic IPs that change over time. Google Cloud is able to provide fixed IPs with just the click of a button, making it easier for the IT departments to provide a DNS (i.e.&nbsp;to be able to use <code>opal.isglobal.org</code> instead of an IP).</p>
 <p>We have created a test user with DataSHIELD access to the server.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-1_68f6308a660549c5a275ce664728512d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSI'</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'DSOpal'</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">'dsBaseClient'</span>)</span>
@@ -229,7 +229,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="assigning-the-resource" class="level3">
 <h3 class="anchored" data-anchor-id="assigning-the-resource">Assigning the resource</h3>
 <p>Now that we have successfully connected to the server, we just have to specify which data to load in order to analyze it.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-2_23205d2bb5b0bde6a170fca3975519a8">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.assign.resource</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  conns, </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">symbol =</span> <span class="st">'exposome_resource'</span>, </span>
@@ -258,7 +258,7 @@ attr(,"package")
 <section id="working-with-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-the-data">Working with the data</h3>
 <p>Finally, we are ready to start analyzing. Here we can see the summary of one variable of the Exposome.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-3_242432b0c12753ee903fe628678bca82">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.exposome_summary</span>(<span class="st">"exposome_resource"</span>, <span class="st">"AbsPM25"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1
@@ -274,7 +274,7 @@ $server1$`quantiles &amp; mean`
 </div>
 </div>
 <p>Now, we will see the amount of missings on the phenotype data.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-4_6bc7656a1847e2d10a0c38cf467daa1a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>phenos <span class="ot">&lt;-</span> <span class="fu">ds.tableMissings</span>(<span class="st">"exposome_resource"</span>, <span class="at">set =</span> <span class="st">"phenotypes"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotMissings</span>(phenos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -285,15 +285,15 @@ $server1$`quantiles &amp; mean`
 </div>
 </div>
 <p>And finally we will perform a simple ExWAS analysis.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-5_001366709be8c1f9c814c7fa842787e9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>exwas_results <span class="ot">&lt;-</span> <span class="fu">ds.exwas</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"blood_pre ~ sex"</span>, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Set =</span> <span class="st">"exposome_resource"</span>, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"blood_pre ~ sex"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Set =</span> <span class="st">"exposome_resource"</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"gaussian"</span>,</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"meta"</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-6_362d7cce7698234022d8b1d6e3a5ff11">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds.plotExwas</span>(exwas_results, <span class="at">type=</span><span class="st">"manhattan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$server1</code></pre>
@@ -303,7 +303,7 @@ $server1$`quantiles &amp; mean`
 </div>
 </div>
 <p>When we are finished doing analysis, it is a good practice to logout of the server, that way the computational resources will be released for other researchers to use.</p>
-<div class="cell" data-hash="dsexposome-demo_cache/html/unnamed-chunk-7_8c8159f8ca7db652e5e102e1ef98f62a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datashield.logout</span>(conns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
